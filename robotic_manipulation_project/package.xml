@@ -4,7 +4,7 @@
   <name>robotic_manipulation_project</name>
   <version>0.0.1</version>
   <description>Deep Reinforcement Learning for Robotic Manipulation</description>
-  <maintainer email="your_email@todo.com">Your Name</maintainer>
+  <maintainer email="vishrutkakadiya99@gmail.com">vishrut</maintainer>
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
