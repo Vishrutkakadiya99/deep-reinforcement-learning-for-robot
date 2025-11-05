@@ -1,0 +1,36 @@
+# In file: config/controllers.yaml
+
+controller_manager:
+  ros__parameters:
+    update_rate: 100 # Hz
+
+    # --- 1. Joint State Broadcaster ---
+    # Publishes the state of all joints (position, velocity) to /joint_states
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # --- 2. Arm Controller ---
+    # This is the controller our DRL agent will send commands to.
+    # It accepts velocity commands.
+    arm_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+      
+      joints: # The joints it controls
+        - joint_1
+        - joint_2
+        - joint_3
+        - joint_4
+        - joint_5
+        - joint_6
+      
+      # We must specify the interface name for velocity controllers
+      interface_name: velocity
+
+    # --- 3. Gripper Controller ---
+    # A simple position controller for the gripper
+    gripper_position_controller:
+      type: position_controllers/JointGroupPositionController
+      
+      joints:
+        - finger_joint_1
+        # - finger_joint_2 # Add more if your gripper has them

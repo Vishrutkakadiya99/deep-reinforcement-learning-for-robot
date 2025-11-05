@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="simple_robot_arm">
+
+  <material name="blue">
+    <color rgba="0.0 0.0 1.0 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1.0"/>
+  </material>
+
+  <xacro:macro name="simple_link" params="name material">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder length="0.4" radius="0.1"/>
+        </geometry>
+        <material name="${material}"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.4" radius="0.1"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1.0"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="simple_joint" params="name type parent child axis_xyz">
+    <joint name="${name}" type="${type}">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <origin xyz="0 0 0.4" rpy="0 0 0"/>
+      <axis xyz="${axis_xyz}"/>
+      <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="1.0"/>
+    </joint>
+  </xacro:macro>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.4 0.4 0.1"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.4 0.4 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:simple_link name="link_1" material="blue"/>
+  <xacro:simple_link name="link_2" material="grey"/>
+  <xacro:simple_link name="link_3" material="blue"/>
+  <xacro:simple_link name="link_4" material="grey"/>
+  <xacro:simple_link name="link_5" material="blue"/>
+  <xacro:simple_link name="link_6_gripper" material="grey"/>
+
+  <xacro:simple_joint name="joint_1" type="revolute" parent="base_link" child="link_1" axis_xyz="0 0 1"/>
+  <xacro:simple_joint name="joint_2" type="revolute" parent="link_1" child="link_2" axis_xyz="0 1 0"/>
+  <xacro:simple_joint name="joint_3" type="revolute" parent="link_2" child="link_3" axis_xyz="0 1 0"/>
+  <xacro:simple_joint name="joint_4" type="revolute" parent="link_3" child="link_4" axis_xyz="0 0 1"/>
+  <xacro:simple_joint name="joint_5" type="revolute" parent="link_4" child="link_5" axis_xyz="0 1 0"/>
+  <xacro:simple_joint name="joint_6" type="revolute" parent="link_5" child="link_6_gripper" axis_xyz="0 0 1"/>
+  
+  <link name="finger_1">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+  <joint name="finger_joint_1" type="prismatic"> <parent link="link_6_gripper"/>
+    <child link="finger_1"/>
+    <origin xyz="0 0.05 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100.0" lower="0.0" upper="0.04" velocity="1.0"/>
+  </joint>
+  
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    
+    <joint name="joint_1">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_2">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_3">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_4">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_5">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_6">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    
+    <joint name="finger_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+  
+  <gazebo_plugin name="camera" filename="libgazebo_ros_camera.so">
+      <ros>
+          <namespace>camera</namespace>
+      </ros>
+      <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+              <width>640</width>
+              <height>480</height>
+          </image>
+          <clip>
+              <near>0.1</near>
+              <far>100</far>
+          </clip>
+      </camera>
+  </gazebo_plugin>
+
+</robot>
