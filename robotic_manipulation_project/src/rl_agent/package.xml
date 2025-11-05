@@ -4,7 +4,7 @@
   <name>rl_agent</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="ab-246955@rwu.de">arjun</maintainer>
+  <maintainer email="vishrutkakadiya99@gmail.com">vishrut</maintainer>
   <license>TODO: License declaration</license>
 
   <test_depend>ament_copyright</test_depend>
