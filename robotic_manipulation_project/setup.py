@@ -40,8 +40,8 @@ setup(
         'geometry_msgs', 
     ],
     zip_safe=True,
-    maintainer='your_name',
-    maintainer_email='your_email@todo.com',
+    maintainer='vishrut',
+    maintainer_email='vishrutkakadiya99@gmail.com',
     description='Deep Reinforcement Learning for Robotic Manipulation',
     license='Apache License 2.0',
     
